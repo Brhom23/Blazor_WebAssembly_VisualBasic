@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>Blazor_WebAssembly_VisualBasic.Server-cd525661-b1de-4279-a7c5-49d328b82ccf</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blazor_WebAssembly_VisualBasic.Server.Identity\Blazor_WebAssembly_VisualBasic.Server.Identity.csproj" />
+    <ProjectReference Include="..\Blazor_WebAssembly_VisualBasic.Server.Shared\Blazor_WebAssembly_VisualBasic.Server.Shared.vbproj" />
+    <ProjectReference Include="..\Client\Blazor_WebAssembly_VisualBasic.Client.csproj" />
+    <ProjectReference Include="..\Shared\Blazor_WebAssembly_VisualBasic.Shared.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>
