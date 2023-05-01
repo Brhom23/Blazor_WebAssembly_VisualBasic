@@ -1,6 +1,10 @@
-﻿<CascadingAuthenticationState>
+﻿@inherits Blazor_WebAssembly_VisualBasic.Client.BL.App
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
+        @*Blazor_WebAssembly_VisualBasic.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null*@
         <Found Context="routeData">
+            @if (isInitialized) //لا يتم تحميل الصفحة إلا بعد ما تكتمل التهيئة
+            {
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
                     @if (context.User.Identity?.IsAuthenticated != true)
@@ -14,6 +18,7 @@
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            }
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>

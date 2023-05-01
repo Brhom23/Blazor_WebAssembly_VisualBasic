@@ -56,3 +56,5 @@ in to 	*.Server.Identity.csproj
 		Shared Project
 31 - On "Client" Project Double click Then delete line contian "Shared.csproj"
 32 - Rebulde "Client" Project
+
+33 - In Solution add Class Library Visual Basic with name *.Client.Code "Blazor_WebAssembly_VisualBasic.Client.Code"

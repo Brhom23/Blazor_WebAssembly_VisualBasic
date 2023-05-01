@@ -15,6 +15,7 @@ Public Class OidcConfigurationController
     <HttpGet("_configuration/{clientId}")>
     Public Function GetClientRequestParameters(
     <FromRoute> ByVal clientId As String) As IActionResult
+        clientId = clientId.Replace(".BL", "", StringComparison.OrdinalIgnoreCase) 'لتصحيح اسم الموقع من Blazor_WebAssembly_VisualBasic.Client.BL إلى Blazor_WebAssembly_VisualBasic.Client
         Dim parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId)
         Return MyBase.Ok(parameters)
     End Function
