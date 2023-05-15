@@ -17,7 +17,7 @@ Public Class Program
             Throw New InvalidOperationException("Connection string 'DefaultConnection' not found.")
         End If
 
-        builder.Services.AddDbContext(Of ApplicationDbContext)(Sub(options) options.UseSqlServer(connectionString))
+        builder.Services.AddDbContext(Of ApplicationDbContext)(Sub(options) options.UseSqlServer(connectionString, Function(b) b.MigrationsAssembly("Blazor_WebAssembly_VisualBasic.Server.Identity")))
         builder.Services.AddDatabaseDeveloperPageExceptionFilter()
 
         builder.Services.AddDefaultIdentity(Of ApplicationUser)(Sub(options) options.SignIn.RequireConfirmedAccount = True).AddEntityFrameworkStores(Of ApplicationDbContext)()

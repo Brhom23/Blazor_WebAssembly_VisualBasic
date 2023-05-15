@@ -15,11 +15,12 @@
 10 - Move Pages folder from Server Project to Server.Identity Project
 11 - Move Data folder from Server Project to Server.Shared Project
 12 - Move Models folder from Server Project to Server.Shared Project
-13 - Convert Server.Shared Project To VB
-14 - In Server.Shared folder deletet *.csproj, *.cs  files
-15 - Rebulde Server.Shared.
-16 - Delete Namespace line in vb code 
-17 - 
+13 - Delete Migrations folder
+14 - Convert Server.Shared Project To VB
+15 - In Server.Shared folder deletet *.csproj, *.cs  files
+16 - Rebulde Server.Shared.
+17 - Delete Namespace line in vb code 
+18 - 
 add
 <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
@@ -30,31 +31,39 @@ add
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2" />
   </ItemGroup>
 in to 	*.Server.Identity.csproj
-18 - In Server.Identity project replace all "Blazor_WebAssembly_VisualBasic.Server.Models" to "Blazor_WebAssembly_VisualBasic.Server.Shared"
-19 - Rebulde 
-20 - in "Server" Project Right click -> add -> Project reference .
+19 - In Server.Identity project replace all "Blazor_WebAssembly_VisualBasic.Server.Models" to "Blazor_WebAssembly_VisualBasic.Server.Shared"
+20 - Rebulde 
+21 - in "Server" Project Right click -> add -> Project reference .
 	Select 
 		Server.Identity Project
 		Server.Shared Project
 		Shared Project
-21 - On Server Project Double click Then delete line contian "Shared.csproj"
-22 - Convert "Server" Project To VB
-23 - Delete Namespaces line in vb code in Server project
-24 - in Program.vb convert line 
+22 - On Server Project Double click Then delete line contian "Shared.csproj"
+23 - Convert "Server" Project To VB
+24 - Delete Namespaces line in vb code in Server project
+25 - in Program.vb convert line 
 		Dim connectionString = If(builder.Configuration.GetConnectionString("DefaultConnection")
-	with
+	to
 		Dim connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
         	If connectionString & "" = "" Then
         	    Throw New InvalidOperationException("Connection string 'DefaultConnection' not found.")
         	End If
-25 - in Program.vb Delete CSharpImpl Class
-26 - in "Server" project move all files in "Properties" folder to "My Project" folder.
-28 - in "Server" project Delete "Properties" folder
-29 - Rebulde "Server" project
-30 - in "Client" Project Right click -> add -> Project reference .
+26 - in Program.vb convert line 
+		builder.Services.AddDbContext(Of ApplicationDbContext)(Sub(options) options.UseSqlServer(connectionString))
+		to
+		builder.Services.AddDbContext(Of ApplicationDbContext)(Sub(options) options.UseSqlServer(connectionString, Function(b) b.MigrationsAssembly("Blazor_WebAssembly_VisualBasic.Server.Identity")))
+	to perform the migration process
+27 - in Program.vb Delete CSharpImpl Class
+28 - in "Server" project move all files in "Properties" folder to "My Project" folder.
+29 - in "Server" project Delete "Properties" folder
+30 - Rebulde "Server" project
+31 - in "Client" Project Right click -> add -> Project reference .
 	Select 
 		Shared Project
-31 - On "Client" Project Double click Then delete line contian "Shared.csproj"
-32 - Rebulde "Client" Project
-
-33 - In Solution add Class Library Visual Basic with name *.Client.Code "Blazor_WebAssembly_VisualBasic.Client.Code"
+32 - On "Client" Project Double click Then delete line contian "Shared.csproj"
+33 - Rebulde "Client" Project
+34 - In Solution add Class Library Visual Basic with name *.Client.Code "Blazor_WebAssembly_VisualBasic.Client.Code"
+35 - In Visual Studio, use the Package Manager Console to scaffold a new migration and apply it to the database:
+		- In the Default Project drop-down list, choose "*.Server.Identity" Project
+		- PM> Add-Migration CreateIdentitySchema
+		- PM> Update-Database
