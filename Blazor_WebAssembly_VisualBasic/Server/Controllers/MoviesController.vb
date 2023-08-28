@@ -25,7 +25,7 @@ Public Class MoviesController
             Return NotFound()
         End If
         Dim lst = Await _context.Movie.ToListAsync
-        Return lst     ' .Movie.ToListAsync()
+        Return Ok(lst)    ' .Movie.ToListAsync()
     End Function
 
     <HttpGet("{id}")>

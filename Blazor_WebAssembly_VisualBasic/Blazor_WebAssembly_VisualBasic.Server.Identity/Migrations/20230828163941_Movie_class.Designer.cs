@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorWebAssemblyVisualBasic.Server.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230828155749_Movie_class")]
+    [Migration("20230828163941_Movie_class")]
     partial class Movie_class
     {
         /// <inheritdoc />

@@ -1,4 +1,6 @@
-﻿Imports Blazor_WebAssembly_VisualBasic.Server.Shared
+﻿Imports System.Formats
+Imports System.Formats.Asn1.AsnWriter
+Imports Blazor_WebAssembly_VisualBasic.Server.Shared
 Imports Microsoft.AspNetCore.Authentication
 Imports Microsoft.AspNetCore.Builder
 Imports Microsoft.EntityFrameworkCore
@@ -31,32 +33,39 @@ Public Class Program
 
         Dim app = builder.Build()
 
+
+
+        Using scope = app.Services.CreateScope()
+            Dim services = scope.ServiceProvider
+            SeedData.Initialize(services)
+        End Using
+
+
         ' Configure the HTTP request pipeline.
         If app.Environment.IsDevelopment() Then
-            app.UseMigrationsEndPoint()
-            app.UseWebAssemblyDebugging()
-        Else
-            app.UseExceptionHandler("/Error")
-            ' The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts()
-        End If
+                app.UseMigrationsEndPoint()
+                app.UseWebAssemblyDebugging()
+            Else
+                app.UseExceptionHandler("/Error")
+                ' The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts()
+            End If
 
-        app.UseHttpsRedirection()
+            app.UseHttpsRedirection()
+            app.UseBlazorFrameworkFiles()
+            app.UseStaticFiles()
 
-        app.UseBlazorFrameworkFiles()
-        app.UseStaticFiles()
+            app.UseRouting()
 
-        app.UseRouting()
-
-        app.UseIdentityServer()
-        app.UseAuthorization()
+            app.UseIdentityServer()
+            app.UseAuthorization()
 
 
-        app.MapRazorPages()
-        app.MapControllers()
-        app.MapFallbackToFile("index.html")
+            app.MapRazorPages()
+            app.MapControllers()
+            app.MapFallbackToFile("index.html")
 
-        app.Run()
+            app.Run()
     End Sub
 
     Private Class CSharpImpl
