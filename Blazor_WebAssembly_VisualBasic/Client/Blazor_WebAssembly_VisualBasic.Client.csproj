@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blazor_WebAssembly_VisualBasic.Client.BL\Blazor_WebAssembly_VisualBasic.Client.BL.vbproj" />
-    <ProjectReference Include="..\Shared\Blazor_WebAssembly_VisualBasic.Shared.csproj" />
     <ProjectReference Include="..\Shared\Blazor_WebAssembly_VisualBasic.Shared.vbproj" />
   </ItemGroup>
 
