@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor_WebAssembly_VisualBa
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Blazor_WebAssembly_VisualBasic.Server.Shared", "Blazor_WebAssembly_VisualBasic\Blazor_WebAssembly_VisualBasic.Server.Shared\Blazor_WebAssembly_VisualBasic.Server.Shared.vbproj", "{8439176F-71B3-0795-1113-F81A0E70A422}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Blazor_WebAssembly_VisualBasic.Client.BL", "Blazor_WebAssembly_VisualBasic\Blazor_WebAssembly_VisualBasic.Client.BL\Blazor_WebAssembly_VisualBasic.Client.BL.vbproj", "{111E4D0D-7B51-44F0-B52F-5464620819E4}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Blazor_WebAssembly_VisualBasic.Client.BL", "Blazor_WebAssembly_VisualBasic\Blazor_WebAssembly_VisualBasic.Client.BL\Blazor_WebAssembly_VisualBasic.Client.BL.vbproj", "{111E4D0D-7B51-44F0-B52F-5464620819E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

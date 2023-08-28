@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Blazor_WebAssembly_VisualBasic.Shared.vbproj" />
+  </ItemGroup>
+
 </Project>
