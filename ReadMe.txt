@@ -67,3 +67,5 @@ in to 	*.Server.Identity.csproj
 		- In the Default Project drop-down list, choose "*.Server.Identity" Project
 		- PM> Add-Migration CreateIdentitySchema
 		- PM> Update-Database
+36 - To make Data seed
+		https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/sql?view=aspnetcore-7.0&tabs=visual-studio

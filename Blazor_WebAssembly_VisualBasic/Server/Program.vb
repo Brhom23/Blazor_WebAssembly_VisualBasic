@@ -1,8 +1,13 @@
 ﻿Imports System.Formats
 Imports System.Formats.Asn1.AsnWriter
+Imports System.IdentityModel.Tokens.Jwt
+Imports System.Security.Claims
 Imports Blazor_WebAssembly_VisualBasic.Server.Shared
+Imports Duende.IdentityServer.AspNetIdentity
+Imports Duende.IdentityServer.Services
 Imports Microsoft.AspNetCore.Authentication
 Imports Microsoft.AspNetCore.Builder
+Imports Microsoft.AspNetCore.Identity
 Imports Microsoft.EntityFrameworkCore
 Imports Microsoft.Extensions.Configuration
 Imports Microsoft.Extensions.DependencyInjection
@@ -10,7 +15,8 @@ Imports Microsoft.Extensions.Hosting
 
 Public Class Program
     Public Shared Sub Main(ByVal args As String())
-        Dim builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args)
+
+        Dim builder = WebApplication.CreateBuilder(args)
 
         ' Add services to the container.
         'Dim connectionString = If(builder.Configuration.GetConnectionString("DefaultConnection"), CSharpImpl.__Throw(Of String)(New InvalidOperationException("Connection string 'DefaultConnection' not found.")))
@@ -22,14 +28,45 @@ Public Class Program
         builder.Services.AddDbContext(Of ApplicationDbContext)(Sub(options) options.UseSqlServer(connectionString, Function(b) b.MigrationsAssembly("Blazor_WebAssembly_VisualBasic.Server.Identity")))
         builder.Services.AddDatabaseDeveloperPageExceptionFilter()
 
-        builder.Services.AddDefaultIdentity(Of ApplicationUser)(Sub(options) options.SignIn.RequireConfirmedAccount = True).AddEntityFrameworkStores(Of ApplicationDbContext)()
+        builder.Services.AddDefaultIdentity(Of ApplicationUser)(
+            Sub(options) options.SignIn.RequireConfirmedAccount = True).
+            AddRoles(Of IdentityRole)().
+            AddEntityFrameworkStores(Of ApplicationDbContext)()
 
-        builder.Services.AddIdentityServer().AddApiAuthorization(Of ApplicationUser, ApplicationDbContext)()
 
-        Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddAuthentication(builder.Services).AddIdentityServerJwt()
 
+
+
+
+
+        '        builder.Services.AddTransient<IProfileService, ProfileService>();
+        '        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
+        '        builder.Services.AddAuthentication().AddIdentityServerJwt();
+        '        builder.Services.AddControllersWithViews();
+        '        builder.Services.AddRazorPages();
+        '        builder.Services.Configure<IdentityOptions>(options =>
+        'options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+
+
+        'builder.Services.AddIdentityServer().AddApiAuthorization(Of ApplicationUser, ApplicationDbContext)()
+        builder.Services.AddIdentityServer().
+            AddApiAuthorization(Of ApplicationUser, ApplicationDbContext)(
+            Sub(options)
+                options.IdentityResources("openid").UserClaims.Add("name")
+                options.ApiResources.Single().UserClaims.Add("name")
+                options.IdentityResources("openid").UserClaims.Add("role")
+                options.ApiResources.Single().UserClaims.Add("role")
+            End Sub)
+
+        builder.Services.AddTransient(Of IProfileService, ProfileService)()
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role")
+        builder.Services.AddAuthentication().AddIdentityServerJwt()
         builder.Services.AddControllersWithViews()
         builder.Services.AddRazorPages()
+        builder.Services.Configure(Of IdentityOptions)(Sub(options) options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier)
+
+
+
 
         Dim app = builder.Build()
 
@@ -43,35 +80,32 @@ Public Class Program
 
         ' Configure the HTTP request pipeline.
         If app.Environment.IsDevelopment() Then
-                app.UseMigrationsEndPoint()
-                app.UseWebAssemblyDebugging()
-            Else
-                app.UseExceptionHandler("/Error")
-                ' The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts()
-            End If
+            app.UseMigrationsEndPoint()
+            app.UseWebAssemblyDebugging()
+        Else
+            app.UseExceptionHandler("/Error")
+            ' The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts()
+        End If
 
-            app.UseHttpsRedirection()
-            app.UseBlazorFrameworkFiles()
-            app.UseStaticFiles()
+        app.UseHttpsRedirection()
+        app.UseBlazorFrameworkFiles()
+        app.UseStaticFiles()
 
-            app.UseRouting()
+        app.UseRouting()
 
-            app.UseIdentityServer()
-            app.UseAuthorization()
+        app.UseIdentityServer()
+        app.UseAuthorization()
 
 
-            app.MapRazorPages()
-            app.MapControllers()
-            app.MapFallbackToFile("index.html")
+        app.MapRazorPages()
+        app.MapControllers()
+        app.MapFallbackToFile("index.html")
 
-            app.Run()
+        app.Run()
     End Sub
 
-    Private Class CSharpImpl
-        <Obsolete("Please refactor calling code to use normal throw statements")>
-        Shared Function __Throw(Of T)(ByVal e As Exception) As T
-            Throw e
-        End Function
-    End Class
+
 End Class
+
+
